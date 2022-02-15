@@ -1,5 +1,6 @@
 import { client } from "../../prisma/client"
 import { compare } from "bcryptjs"
+import { sign } from "jsonwebtoken"
 
 interface IRequest{
     username: string
@@ -30,7 +31,12 @@ class AuthenticateUserCase {
 
         // gerar token do usuario 
 
-        
+        const token = sign({}, "96841663-a533-4d9a-9a22-e8ab0058ea6b",{
+            subject: userAlreadyExists.id,
+            expiresIn: "20s"
+        });
+
+        return { token }
     }
 
 }
